@@ -25,7 +25,6 @@
 
   <script>
     window.OASIS_CONFIG = {
-      apiEndpoint: '/api/leads',
       googleAdsConversionId: 'AW-XXXXXXXXXX',
       googleAdsConversionLabel: 'XXXXXXXXXXXXXXX',
       metaPixelId: '000000000000000'
@@ -1579,7 +1578,7 @@
               </a>
             </div>
           </div>
-          <form id="enquiry-form" onsubmit="handleSubmit(event)">
+          <form id="enquiry-form">
             <div id="form-error" class="form-error" role="alert"></div>
             <div class="honeypot" aria-hidden="true">
               <label for="company">Company</label>
@@ -1803,6 +1802,9 @@
 <script>
   // ── Wire all links on DOM ready ─────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
+    const enquiryForm = document.getElementById('enquiry-form');
+    if (enquiryForm) enquiryForm.addEventListener('submit', handleSubmit);
+
     // General WhatsApp — all non-plot-specific buttons
     ['nav-wa','hero-wa','strip-wa','more-wa','final-wa','sticky-wa','float-wa','success-wa','timeline-wa','footer-wa'].forEach(id => {
       const el = document.getElementById(id);
@@ -1810,11 +1812,17 @@
     });
 
     // Plot-specific WhatsApp
-    document.getElementById('pa-wa').href    = WA_LINK_P1;
-    document.getElementById('pb-wa').href    = WA_LINK_P2;
-    document.getElementById('cmp-wa-a').href = WA_LINK_P1;
-    document.getElementById('cmp-wa-b').href = WA_LINK_P2;
-    document.getElementById('brochure-wa').href = WA_LINK_BR;
+    const plotLinks = {
+      'pa-wa': WA_LINK_P1,
+      'pb-wa': WA_LINK_P2,
+      'cmp-wa-a': WA_LINK_P1,
+      'cmp-wa-b': WA_LINK_P2,
+      'brochure-wa': WA_LINK_BR
+    };
+    Object.entries(plotLinks).forEach(([id, href]) => {
+      const el = document.getElementById(id);
+      if (el) el.href = href;
+    });
 
     // Phone / call links
     ['sticky-call','final-call','footer-call'].forEach(id => {
@@ -1823,7 +1831,8 @@
     });
 
     // Date min for site visit field
-    document.getElementById('f-visit').min = new Date().toISOString().split('T')[0];
+    const visitField = document.getElementById('f-visit');
+    if (visitField) visitField.min = new Date().toISOString().split('T')[0];
     hydrateAttributionFields();
 
     renderFAQ();
@@ -1959,7 +1968,8 @@
     trackEvent('lead_form_attempt', { plot_interest: payload.plot_interest, budget: payload.budget, purpose: payload.purpose });
 
     try {
-      const res = await fetch((window.OASIS_CONFIG && window.OASIS_CONFIG.apiEndpoint) || '/api/leads', {
+      console.log('Submitting lead...');
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
