@@ -1,0 +1,64 @@
+name: Apply frontend lead form fix
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch index.html form submission
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          text = path.read_text()
+
+          text = text.replace("      apiEndpoint: '/api/leads',\n", '')
+          text = text.replace('<form id="enquiry-form" onsubmit="handleSubmit(event)">', '<form id="enquiry-form">')
+
+          marker = "  document.addEventListener('DOMContentLoaded', () => {\n"
+          attach = "    const enquiryForm = document.getElementById('enquiry-form');\n    if (enquiryForm) enquiryForm.addEventListener('submit', handleSubmit);\n\n"
+          if attach not in text:
+              text = text.replace(marker, marker + attach, 1)
+
+          old_plot_links = """    // Plot-specific WhatsApp\n    document.getElementById('pa-wa').href    = WA_LINK_P1;\n    document.getElementById('pb-wa').href    = WA_LINK_P2;\n    document.getElementById('cmp-wa-a').href = WA_LINK_P1;\n    document.getElementById('cmp-wa-b').href = WA_LINK_P2;\n    document.getElementById('brochure-wa').href = WA_LINK_BR;\n"""
+          new_plot_links = """    // Plot-specific WhatsApp\n    const plotLinks = {\n      'pa-wa': WA_LINK_P1,\n      'pb-wa': WA_LINK_P2,\n      'cmp-wa-a': WA_LINK_P1,\n      'cmp-wa-b': WA_LINK_P2,\n      'brochure-wa': WA_LINK_BR\n    };\n    Object.entries(plotLinks).forEach(([id, href]) => {\n      const el = document.getElementById(id);\n      if (el) el.href = href;\n    });\n"""
+          text = text.replace(old_plot_links, new_plot_links)
+
+          text = text.replace(
+              "    document.getElementById('f-visit').min = new Date().toISOString().split('T')[0];",
+              "    const visitField = document.getElementById('f-visit');\n    if (visitField) visitField.min = new Date().toISOString().split('T')[0];"
+          )
+
+          text = text.replace(
+              "      const res = await fetch((window.OASIS_CONFIG && window.OASIS_CONFIG.apiEndpoint) || '/api/leads', {",
+              "      console.log('Submitting lead...');\n      const res = await fetch('/api/leads', {"
+          )
+
+          path.write_text(text)
+
+          workflow = Path('.github/workflows/apply-frontend-form-fix.yml')
+          if workflow.exists():
+              workflow.unlink()
+          PY
+
+      - name: Commit frontend fix
+        run: |
+          if git diff --quiet; then
+            echo "No frontend changes needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Fix frontend lead form POST submission"
+          git push
