@@ -3,16 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Only 2 Select Large Bungalow Plots Available | The Oasis, Talegaon – GoldenAurah Landmarks</title>
-  <meta name="description" content="Only 2 select large bungalow-scale plots currently available at The Oasis, Varale–Talegaon, Pune. Approx. 3,687 sq.ft. and 4,236 sq.ft. Collector N.A. & T.P. approved layout. Site visits open. Marketed by GoldenAurah Landmarks.">
-  <meta property="og:title" content="Only 2 Select Large Bungalow Plots Available | The Oasis, Talegaon">
-  <meta property="og:description" content="Only 2 select large-format plot options currently available at The Oasis, Varale–Talegaon. 40 ft internal road access, Collector N.A. & T.P. approved, clubhouse & lifestyle amenities. Marketed by GoldenAurah Landmarks.">
+  <title>The Oasis Talegaon | NA Bungalow Plots by GoldenAurah Landmarks</title>
+  <meta name="description" content="Enquire for The Oasis, Varale-Talegaon NA bungalow plots near Pune. Two large plot options, 40 ft internal road access, approved layout, site visits and WhatsApp follow-up by GoldenAurah Landmarks.">
+  <link rel="canonical" href="https://asingh6937-stack.github.io/the-oasis-goldenaurah/">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:title" content="The Oasis Talegaon | Select NA Bungalow Plots">
+  <meta property="og:description" content="Request current availability, pricing and site visit slots for The Oasis, Varale-Talegaon. Marketed by GoldenAurah Landmarks.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://asingh6937-stack.github.io/the-oasis-goldenaurah/">
+  <meta property="og:image" content="https://asingh6937-stack.github.io/the-oasis-goldenaurah/oasis/hero-gate.jpg">
+  <meta property="og:site_name" content="GoldenAurah Landmarks">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Oasis Talegaon | NA Bungalow Plots">
+  <meta name="twitter:description" content="Book a site visit or request plot availability for The Oasis, Varale-Talegaon.">
+  <meta name="twitter:image" content="https://asingh6937-stack.github.io/the-oasis-goldenaurah/oasis/hero-gate.jpg">
 
-  <link rel="preload" as="image" href="oasis/hero-gate.jpg">
+  <link rel="preload" as="image" href="oasis/hero-gate.jpg" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    window.OASIS_CONFIG = {
+      apiEndpoint: '/api/leads',
+      googleAdsConversionId: 'AW-XXXXXXXXXX',
+      googleAdsConversionLabel: 'XXXXXXXXXXXXXXX',
+      metaPixelId: '000000000000000'
+    };
+  </script>
+
+  <!-- Google tag and Meta Pixel are activated when real public IDs replace the placeholders above. -->
+  <script>
+    (function () {
+      const cfg = window.OASIS_CONFIG || {};
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){ dataLayer.push(arguments); };
+      gtag('js', new Date());
+      if (cfg.googleAdsConversionId && !cfg.googleAdsConversionId.includes('XXXX')) {
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(cfg.googleAdsConversionId);
+        document.head.appendChild(s);
+        gtag('config', cfg.googleAdsConversionId);
+      }
+
+      window.fbq = window.fbq || function(){ (fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments)); };
+      if (!window._fbq) window._fbq = fbq;
+      fbq.push = fbq;
+      fbq.loaded = true;
+      fbq.version = '2.0';
+      fbq.queue = [];
+      if (cfg.metaPixelId && cfg.metaPixelId !== '000000000000000') {
+        const f = document.createElement('script');
+        f.async = true;
+        f.src = 'https://connect.facebook.net/en_US/fbevents.js';
+        document.head.appendChild(f);
+        fbq('init', cfg.metaPixelId);
+        fbq('track', 'PageView');
+      }
+    })();
+  </script>
 
   <style>
     /* ─── TOKENS ────────────────────────────────────────────── */
@@ -474,6 +524,12 @@
     .form-field select:focus,
     .form-field textarea:focus { border-color: var(--gold); background: var(--white); }
     .form-field textarea { resize: none; }
+    .honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+    .form-error {
+      display: none; margin-bottom: 16px; padding: 12px 14px;
+      border: 1px solid rgba(154,52,18,0.22); background: #fff7ed;
+      color: #9a3412; font-size: 13px; line-height: 1.5;
+    }
 
     #form-success { display: none; }
     .success-card {
@@ -896,9 +952,31 @@
 
   <!-- Tracking helper -->
   <script>
+    let leadConversionTracked = false;
+
     function trackEvent(n, p) {
-      if (window.gtag) gtag('event', n, p || {});
-      if (window.dataLayer) window.dataLayer.push(Object.assign({ event: n }, p || {}));
+      const params = p || {};
+      if (window.gtag) gtag('event', n, params);
+      if (window.dataLayer) window.dataLayer.push(Object.assign({ event: n }, params));
+      if (window.fbq && n === 'whatsapp_click') fbq('track', 'Contact', params);
+      if (window.fbq && ['call_click', 'brochure_request', 'site_visit_click', 'map_click'].includes(n)) {
+        fbq('trackCustom', n, params);
+      }
+    }
+
+    function trackLeadConversion(params) {
+      if (leadConversionTracked) return;
+      leadConversionTracked = true;
+      const cfg = window.OASIS_CONFIG || {};
+      if (window.gtag && cfg.googleAdsConversionId && cfg.googleAdsConversionLabel && !cfg.googleAdsConversionId.includes('XXXX')) {
+        gtag('event', 'conversion', {
+          send_to: cfg.googleAdsConversionId + '/' + cfg.googleAdsConversionLabel,
+          event_category: 'lead',
+          event_label: 'enquiry_form',
+          ...params
+        });
+      }
+      if (window.fbq) fbq('track', 'Lead', params || {});
     }
   </script>
 
@@ -922,6 +1000,32 @@
   </script>
 
   <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "RealEstateAgent"],
+    "name": "GoldenAurah Landmarks",
+    "url": "https://asingh6937-stack.github.io/the-oasis-goldenaurah/",
+    "image": "https://asingh6937-stack.github.io/the-oasis-goldenaurah/oasis/hero-gate.jpg",
+    "telephone": "+918446860026",
+    "areaServed": ["Talegaon", "Varale", "Pune", "Maharashtra"],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "The Oasis, Gat no. 7/1/2/1/1, Varale",
+      "addressLocality": "Talegaon",
+      "addressRegion": "Maharashtra",
+      "postalCode": "410507",
+      "addressCountry": "IN"
+    },
+    "makesOffer": {
+      "@type": "Offer",
+      "name": "The Oasis NA bungalow plot enquiries",
+      "category": "Residential plotted development",
+      "availability": "https://schema.org/LimitedAvailability",
+      "url": "https://asingh6937-stack.github.io/the-oasis-goldenaurah/#lead-form"
+    }
+  }
+  </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many plots are currently available at The Oasis?","acceptedAnswer":{"@type":"Answer","text":"Only two select large-format plot options are currently available at The Oasis, Varale–Talegaon — approx. 3,687 sq.ft. and approx. 4,236 sq.ft."}},{"@type":"Question","name":"Are these plots suitable for bungalow construction?","acceptedAnswer":{"@type":"Answer","text":"Yes. The available options are bungalow-scale plots with 40 ft internal road access and 1.5 to 2.5 FSI potential, subject to applicable planning rules and plot-specific approval."}},{"@type":"Question","name":"What approvals and documents are available?","acceptedAnswer":{"@type":"Answer","text":"The layout is Collector N.A. & T.P. approved, with clear title documentation available for buyer verification during the enquiry and purchase process."}},{"@type":"Question","name":"Is pricing shown online?","acceptedAnswer":{"@type":"Answer","text":"Pricing is shared on request after availability confirmation, preferred plot discussion, and buyer requirement understanding."}},{"@type":"Question","name":"Can I schedule a site visit?","acceptedAnswer":{"@type":"Answer","text":"Yes. GoldenAurah Landmarks assists with enquiry handling, site visit coordination, and documentation discussion. Site visits are open 6 days a week."}},{"@type":"Question","name":"What connectivity does Varale–Talegaon offer?","acceptedAnswer":{"@type":"Answer","text":"4 km from Talegaon Railway Station, 4.5 km from NH4, 7 km from Mumbai–Pune Expressway, 10 min from Talegaon MIDC, 25 min from Chakan MIDC, and 30 min from Hinjewadi IT Park."}},{"@type":"Question","name":"Who should I contact for inventory and pricing?","acceptedAnswer":{"@type":"Answer","text":"Contact GoldenAurah Landmarks via WhatsApp, the enquiry form on this page, or by phone. Our team responds promptly with current availability, pricing, and site visit timings."}}]}
   </script>
@@ -1232,32 +1336,32 @@
 
   <div class="gallery-grid">
     <div class="g-cell g-cell-main" onclick="openLb('oasis/hero-gate.jpg'); trackEvent('gallery_view',{photo:'gate'})">
-      <img src="oasis/hero-gate.jpg" alt="Entrance gate of The Oasis bungalow plot layout, Varale Talegaon" loading="lazy"
+      <img src="oasis/hero-gate.jpg" alt="Entrance gate of The Oasis bungalow plot layout, Varale Talegaon" loading="lazy" width="1672" height="941"
            onerror="this.parentNode.innerHTML='<div class=\'g-placeholder\'>🚪<p>Entrance Gate</p></div>'">
       <span class="g-label">Entrance Gate</span>
     </div>
     <div class="g-cell g-cell-sm" onclick="openLb('oasis/internal-road.jpg'); trackEvent('gallery_view',{photo:'road'})">
-      <img src="oasis/internal-road.jpg" alt="Developed internal concrete road at The Oasis, Varale Talegaon" loading="lazy"
+      <img src="oasis/internal-road.jpg" alt="Developed internal concrete road at The Oasis, Varale Talegaon" loading="lazy" width="1672" height="941"
            onerror="this.parentNode.innerHTML='<div class=\'g-placeholder\'>🛣️<p>Internal Road</p></div>'">
       <span class="g-label">Internal Road</span>
     </div>
     <div class="g-cell g-cell-sm" onclick="openLb('oasis/road-lights-night.jpg'); trackEvent('gallery_view',{photo:'night'})">
-      <img src="oasis/road-lights-night.jpg" alt="Night view with streetlights at The Oasis layout, Varale Talegaon" loading="lazy"
+      <img src="oasis/road-lights-night.jpg" alt="Night view with streetlights at The Oasis layout, Varale Talegaon" loading="lazy" width="1672" height="941"
            onerror="this.parentNode.innerHTML='<div class=\'g-placeholder\'>💡<p>Night View</p></div>'">
       <span class="g-label">Streetlights · Night</span>
     </div>
     <div class="g-cell g-cell-sm" onclick="openLb('oasis/plot-view.jpg'); trackEvent('gallery_view',{photo:'plot'})">
-      <img src="oasis/plot-view.jpg" alt="Plot area with landscaping at The Oasis, Varale Talegaon" loading="lazy"
+      <img src="oasis/plot-view.jpg" alt="Plot area with landscaping at The Oasis, Varale Talegaon" loading="lazy" width="1672" height="941"
            onerror="this.parentNode.innerHTML='<div class=\'g-placeholder\'>🌸<p>Plot &amp; Landscaping</p></div>'">
       <span class="g-label">Plot Area</span>
     </div>
     <div class="g-cell g-cell-sm" onclick="openLb('oasis/landscaping.jpg'); trackEvent('gallery_view',{photo:'landscape'})">
-      <img src="oasis/landscaping.jpg" alt="Green space and landscaping at The Oasis bungalow plot layout" loading="lazy"
+      <img src="oasis/landscaping.jpg" alt="Green space and landscaping at The Oasis bungalow plot layout" loading="lazy" width="597" height="1280"
            onerror="this.parentNode.innerHTML='<div class=\'g-placeholder\'>🌿<p>Green Space</p></div>'">
       <span class="g-label">Green Space</span>
     </div>
     <div class="g-cell g-cell-sm" onclick="openLb('oasis/layout-map.jpg'); trackEvent('gallery_view',{photo:'layout'})">
-      <img src="oasis/layout-map.jpg" alt="PMRDA sanctioned plot layout map of The Oasis, Varale Talegaon" loading="lazy"
+      <img src="oasis/layout-map.jpg" alt="PMRDA sanctioned plot layout map of The Oasis, Varale Talegaon" loading="lazy" width="1999" height="1267"
            onerror="this.parentNode.innerHTML='<div class=\'g-placeholder\'>📐<p>Layout Plan</p></div>'">
       <span class="g-label">PMRDA Layout Plan</span>
     </div>
@@ -1362,6 +1466,7 @@
         <div style="margin-top:2px;padding:16px 20px;background:var(--white);border:1px solid var(--stone-mid)">
           <p style="font-size:12px;color:var(--text-lt);line-height:1.7">
             Also near: D.Y. Patil College of Engineering, MIT Medical College, Indrayani River, and the Talegaon–Chakan Road corridor.
+            <br><a href="https://maps.google.com/?q=The+Oasis,+Gat+no.+7/1/2/1/1,+Varale,+Maharashtra+410507" target="_blank" rel="noopener" onclick="trackEvent('map_click',{location:'location_section'})" style="color:var(--forest-lt);font-weight:600;border-bottom:1px solid currentColor">Open in Google Maps</a>
           </p>
         </div>
       </div>
@@ -1465,9 +1570,9 @@
         <div class="form-card">
           <div id="form-success" style="display:none">
             <div class="success-card">
-              <div style="font-size:40px;margin-bottom:16px">✅</div>
-              <h3>Thank You!</h3>
-              <p>Our team will reach out shortly with plot availability and site visit options.</p>
+              <div style="font-size:40px;margin-bottom:16px">✓</div>
+              <h3>Your Private Enquiry Is Confirmed</h3>
+              <p>A GoldenAurah advisor will WhatsApp or call you shortly with current availability, pricing guidance, and site visit options.</p>
               <a id="success-wa" href="#" onclick="trackEvent('whatsapp_click',{location:'form_success'})"
                  class="btn btn-gold" style="justify-content:center;width:100%">
                 Continue on WhatsApp →
@@ -1475,12 +1580,28 @@
             </div>
           </div>
           <form id="enquiry-form" onsubmit="handleSubmit(event)">
+            <div id="form-error" class="form-error" role="alert"></div>
+            <div class="honeypot" aria-hidden="true">
+              <label for="company">Company</label>
+              <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="source" id="f-source" value="landing_page">
+            <input type="hidden" name="campaign" id="f-campaign">
+            <input type="hidden" name="ad_id" id="f-ad-id">
+            <input type="hidden" name="landing_page" id="f-landing-page">
+            <input type="hidden" name="utm_source" id="f-utm-source">
+            <input type="hidden" name="utm_medium" id="f-utm-medium">
+            <input type="hidden" name="utm_campaign" id="f-utm-campaign">
+            <input type="hidden" name="utm_content" id="f-utm-content">
+            <input type="hidden" name="utm_term" id="f-utm-term">
+            <input type="hidden" name="gclid" id="f-gclid">
+            <input type="hidden" name="fbclid" id="f-fbclid">
             <div class="form-grid">
               <div class="form-field"><label for="f-name">Full Name *</label><input type="text" id="f-name" name="name" required placeholder="Your name" autocomplete="name"></div>
               <div class="form-field"><label for="f-phone">Mobile Number *</label><input type="tel" id="f-phone" name="phone" required placeholder="+91 9XXXXXXXXX" autocomplete="tel"></div>
               <div class="form-field">
                 <label for="f-plot">Interested Plot</label>
-                <select id="f-plot" name="plot">
+                <select id="f-plot" name="plot_interest">
                   <option value="">— Select —</option>
                   <option value="3687">Approx. 3,687 sq.ft.</option>
                   <option value="4236">Approx. 4,236 sq.ft.</option>
@@ -1499,7 +1620,7 @@
               </div>
               <div class="form-field">
                 <label for="f-visit">Preferred Site Visit Day</label>
-                <input type="date" id="f-visit" name="visit_date">
+                <input type="date" id="f-visit" name="preferred_visit_date">
               </div>
               <div class="form-field">
                 <label for="f-purpose">Purpose</label>
@@ -1622,7 +1743,7 @@
 
     <div class="footer-col">
       <span class="footer-col-title">Contact</span>
-      <a id="footer-call" href="#">+91 8446860026</a>
+      <a id="footer-call" href="#" onclick="trackEvent('call_click',{location:'footer'})">+91 8446860026</a>
       <a href="mailto:info@goldenaurah.com">info@goldenaurah.com</a>
       <p style="margin-top:12px">Site visits open<br>6 days a week</p>
       <p style="margin-top:12px">Varale–Talegaon, Pune<br>Maharashtra, India</p>
@@ -1703,6 +1824,7 @@
 
     // Date min for site visit field
     document.getElementById('f-visit').min = new Date().toISOString().split('T')[0];
+    hydrateAttributionFields();
 
     renderFAQ();
     initReveal();
@@ -1775,17 +1897,86 @@
   }
 
   // ── Form ─────────────────────────────────────────────────────
-  function handleSubmit(e) {
+  function hydrateAttributionFields() {
+    const params = new URLSearchParams(window.location.search);
+    const set = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.value = value || '';
+    };
+    set('f-landing-page', window.location.href.split('#')[0]);
+    set('f-utm-source', params.get('utm_source'));
+    set('f-utm-medium', params.get('utm_medium'));
+    set('f-utm-campaign', params.get('utm_campaign'));
+    set('f-utm-content', params.get('utm_content'));
+    set('f-utm-term', params.get('utm_term'));
+    set('f-gclid', params.get('gclid'));
+    set('f-fbclid', params.get('fbclid'));
+    set('f-campaign', params.get('campaign') || params.get('utm_campaign'));
+    set('f-ad-id', params.get('ad_id') || params.get('adid'));
+  }
+
+  function showFormError(message) {
+    const el = document.getElementById('form-error');
+    if (!el) return;
+    el.textContent = message;
+    el.style.display = 'block';
+  }
+
+  function clearFormError() {
+    const el = document.getElementById('form-error');
+    if (!el) return;
+    el.textContent = '';
+    el.style.display = 'none';
+  }
+
+  function validateLeadForm(fd) {
+    const name = String(fd.get('name') || '').trim();
+    const phone = String(fd.get('phone') || '').trim();
+    if (name.length < 2 || name.length > 80) return 'Please enter your full name.';
+    if (!/^[+\d\s()-]{8,18}$/.test(phone)) return 'Please enter a valid mobile number.';
+    const visit = String(fd.get('preferred_visit_date') || '');
+    if (visit) {
+      const selected = new Date(visit + 'T00:00:00');
+      const today = new Date(new Date().toISOString().split('T')[0] + 'T00:00:00');
+      if (Number.isNaN(selected.getTime()) || selected < today) return 'Please choose today or a future site visit date.';
+    }
+    return '';
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
     const fd = new FormData(e.target);
     const btn = document.getElementById('form-submit-btn');
+    clearFormError();
+    const validationError = validateLeadForm(fd);
+    if (validationError) {
+      showFormError(validationError);
+      return;
+    }
     if (btn) { btn.classList.add('btn-loading'); btn.textContent = 'Sending…'; }
-    trackEvent('lead_form_submit', { plot: fd.get('plot'), budget: fd.get('budget'), purpose: fd.get('purpose') });
-    // Connect backend here: fetch('/api/leads', { method:'POST', body: JSON.stringify(Object.fromEntries(fd)) })
-    setTimeout(() => {
+    const payload = Object.fromEntries(fd.entries());
+    payload.timestamp = new Date().toISOString();
+    trackEvent('lead_form_attempt', { plot_interest: payload.plot_interest, budget: payload.budget, purpose: payload.purpose });
+
+    try {
+      const res = await fetch((window.OASIS_CONFIG && window.OASIS_CONFIG.apiEndpoint) || '/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data.error || 'Please try again in a minute.');
       document.getElementById('enquiry-form').style.display = 'none';
       document.getElementById('form-success').style.display = 'block';
-    }, 900);
+      trackEvent('lead_form_submit', { plot_interest: payload.plot_interest, budget: payload.budget, purpose: payload.purpose });
+      trackLeadConversion({ plot_interest: payload.plot_interest, budget: payload.budget, source: payload.source });
+      window.location.hash = 'lead-form';
+    } catch (err) {
+      showFormError(err.message || 'Something went wrong. Please WhatsApp us or try again shortly.');
+      trackEvent('lead_form_error', { reason: err.message || 'unknown' });
+    } finally {
+      if (btn) { btn.classList.remove('btn-loading'); btn.textContent = 'Request Plot Details & Availability →'; }
+    }
   }
 
   // ── Lightbox with nav ─────────────────────────────────────────

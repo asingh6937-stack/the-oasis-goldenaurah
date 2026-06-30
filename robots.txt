@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asingh6937-stack.github.io/the-oasis-goldenaurah/sitemap.xml
