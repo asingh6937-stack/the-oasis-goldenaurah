@@ -1967,23 +1967,26 @@
     payload.timestamp = new Date().toISOString();
     trackEvent('lead_form_attempt', { plot_interest: payload.plot_interest, budget: payload.budget, purpose: payload.purpose });
 
+    const FALLBACK_ERROR = 'Lead could not be submitted. Please WhatsApp us directly.';
     try {
-      console.log('Submitting lead...');
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.ok) throw new Error(data.error || 'Please try again in a minute.');
+      // Server always returns a plain-string `error`; guard so we never show "[object Object]".
+      if (!res.ok || !data.ok) throw new Error(typeof data.error === 'string' ? data.error : FALLBACK_ERROR);
+      // Lead saved in Wix CRM — only now fire the Google Ads + Meta Pixel lead events.
       document.getElementById('enquiry-form').style.display = 'none';
       document.getElementById('form-success').style.display = 'block';
       trackEvent('lead_form_submit', { plot_interest: payload.plot_interest, budget: payload.budget, purpose: payload.purpose });
       trackLeadConversion({ plot_interest: payload.plot_interest, budget: payload.budget, source: payload.source });
       window.location.hash = 'lead-form';
     } catch (err) {
-      showFormError(err.message || 'Something went wrong. Please WhatsApp us or try again shortly.');
-      trackEvent('lead_form_error', { reason: err.message || 'unknown' });
+      const msg = (err && typeof err.message === 'string' && err.message) ? err.message : FALLBACK_ERROR;
+      showFormError(msg);
+      trackEvent('lead_form_error', { reason: msg });
     } finally {
       if (btn) { btn.classList.remove('btn-loading'); btn.textContent = 'Request Plot Details & Availability →'; }
     }
