@@ -1967,7 +1967,7 @@
     payload.timestamp = new Date().toISOString();
     trackEvent('lead_form_attempt', { plot_interest: payload.plot_interest, budget: payload.budget, purpose: payload.purpose });
 
-    const FALLBACK_ERROR = 'Lead could not be submitted. Please WhatsApp us directly.';
+    const FALLBACK_ERROR = 'Could not submit lead. Please WhatsApp us directly.';
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
